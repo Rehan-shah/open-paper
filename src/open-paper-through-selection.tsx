@@ -3,11 +3,22 @@ import { Action, ActionPanel, Form } from "@raycast/api";
 import { useState } from "react";
 
 export default function Command() {
-    const [cat, setCat] = useState()
-    const [subjectCode, setSubjectCode] = useState()
-    const [variant, setVarient] = useState()
+    const [cat, setCatM] = useState("w")
+    const [subjectCode, setSubjectCode] = useState("")
+    const [variant, setVarient] = useState("1")
     const [string, setStrn] = useState<string | undefined>()
     const [year, setStrn1] = useState<string | undefined>()
+    const [list, setList] = useState([1, 2, 3])
+
+    const setCat = (str: string) => {
+        if (str === "m") {
+            setList([2])
+        } else {
+            setList([1, 2, 3])
+        }
+        setCatM(str)
+
+    }
 
     function getUrl(type: "ms" | "qp"): string {
         const str = `https://pastpapers.papacambridge.com/directories/CAIE/CAIE-pastpapers/upload/${subjectCode}_${cat}${year}_${type}_${string}${variant}.pdf#view=FitH`
@@ -44,9 +55,9 @@ export default function Command() {
                 <Form.Dropdown.Item value="w" title="oct/nov" />
             </Form.Dropdown>
             <Form.Dropdown id="ico3" title="Variant" onChange={setVarient} >
-                <Form.Dropdown.Item value="1" title="Var 1" />
-                <Form.Dropdown.Item value="2" title="Var 2" />
-                <Form.Dropdown.Item value="3" title="Var 3" />
+                {list.map((num) => (
+                    <Form.Dropdown.Item key={num} value={`${num}`} title={`Var ${num}`} />
+                ))}
             </Form.Dropdown>
             <Form.Dropdown id="ico2" title="Variant" onChange={setStrn} >
                 <Form.Dropdown.Item value="1" title="type 1" />
